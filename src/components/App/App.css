@@ -1,0 +1,89 @@
+.App {
+  text-align: center;
+  background-color:darkslategray;
+  min-height: 100vh;
+}
+
+.App-header {
+  background-color:rgb(211, 189, 233);
+  height: 5rem;
+  color:rgb(114, 20, 202);
+  text-align:left;
+  margin-bottom:0.5rem;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+h1 {
+  font-family: 'Titan One', sans-serif;
+  font-size: 3rem;
+  color:rgb(114, 20, 202);
+  letter-spacing: .06rem;
+  font-weight: normal;
+  padding: .5rem;
+  margin: 0;
+  text-decoration:underline;
+  display:inline;
+}
+
+h2 {
+  display:inline;
+  font-size:1.5rem;
+  font-weight:bold;
+}
+
+.list-container {
+  display:inline-block;
+  padding: 1rem 0 0 0;
+  margin: 1rem 1rem;
+  min-height: 10rem;
+  max-width: 40%;
+  vertical-align: top;
+  border-radius: 5px;
+}
+
+.tracklist-container {
+  background-color: lavenderblush;
+  border: 1px solid plum;
+  color: purple;
+}
+
+.playlist-container {
+  background-color: azure;
+  border: 1px solid lightblue;
+  color: navy;
+}
+
+h3 {
+  margin:0;
+  padding:0;
+}
+
+p {
+  margin:0;
+  padding:0;
+}
+
+label {
+  font-weight:bold;
+  margin:0;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+}
+
+input {
+  font-size: 1.2rem;
+  margin: 0 1rem;
+}
+
+button {
+  padding: .1rem 1rem;
+  margin-right:1rem;
+  font-weight:bold;
+  background-color:lightyellow;
+  border-radius: 5px;
+  font-size:1.2rem;
+  cursor: pointer;
+}

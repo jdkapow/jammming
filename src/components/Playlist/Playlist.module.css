@@ -1,0 +1,14 @@
+.button {
+  margin:1rem 0;
+  color:navy;
+  border-color:navy;
+}
+
+.input {
+  color:navy;
+  border: 1px solid navy;
+}
+
+.label {
+  color:navy;
+}
