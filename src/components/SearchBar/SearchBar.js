@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import styles from './SearchBar.module.css';
 
-const SearchBar = ( {onSubmitForm} ) => {
+const SearchBar = ( {userData, onSubmitForm} ) => {
   const [text, setText] = useState('');
+
+  const loggedOutStyle = {
+    backgroundColor:"pink"
+  }
 
   const handleChange = (e) => {
     setText(e.target.value);
@@ -15,9 +19,11 @@ const SearchBar = ( {onSubmitForm} ) => {
 
   return (
     <form onSubmit={handleSubmitForm}>
-      <label for="search">Enter Search Term:</label>
-      <input type="text" id="search" value={text} onChange={handleChange} className={styles.input}></input>
-      <button type="submit" className={styles.button}>Search</button>
+      <input type="text" id="search" value={text} onChange={handleChange} className={styles.input} 
+            placeholder={userData === null ? "Login to Search" : "Enter Search Term"}
+            style={userData === null ? {backgroundColor:"pink", pointerEvents:"none"} : {}}></input>
+      <button type="submit" style={userData === null ? {display:"none"} : {}} className={styles["button-large"]}>Search</button>
+      <button type="submit" style={userData === null ? {display:"none"} : {}} className={styles["button-small"]}>?</button>
     </form>
   );
 };

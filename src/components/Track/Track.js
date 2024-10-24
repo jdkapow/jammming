@@ -8,19 +8,19 @@ const Track = ({track, buttonText, onSelectTrack}) => {
     onSelectTrack(uri);
   }
 
-  const containerClassName1 = styles.trackContainer
+  const containerClassName1 = styles["track-container"];
   const containerClassName2 = (buttonText === "+" 
-                              ? (inPlaylist === "true" ? styles.trackContainerSelected : styles.trackContainerAdd) 
-                              : styles.trackContainerRemove)
+                      ? (inPlaylist === "true" ? styles["track-container-selected"] : styles["track-container-add"]) 
+                      : styles["track-container-remove"]);
   const containerClassNameFull = [containerClassName1, containerClassName2].join(" ");
 
   return (
     <div className={containerClassNameFull}>
-      <div className={styles.trackInfo}>
-        <h3>{title}</h3>
-        <p>{artist} | {album}</p>
+      <div className={styles.info}>
+        <h4 className={styles.h4}>{title}</h4>
+        <p className={styles.p}>{artist} | {album}</p>
       </div>
-      <div className={styles.trackButton}>
+      <div className={styles["button-container"]}>
         <button 
           onClick={handleClick} 
           className={styles.button}

@@ -19,8 +19,7 @@ const Playlist = ( {playlist, onRemoveTrack, onSavePlaylist} ) => {
   return (
     <div id="playlist-section">
       <div className="bar">
-        <label for="playlist-name" className={styles.label}>Playlist Name:</label>
-        <input type="text" id="playlist-name" value={playlistName} onChange={handleChange} className={styles.input}></input>
+        <input type="text" id="playlist-name" value={playlistName} onChange={handleChange} className={styles.input} placeholder="Name Your Playlist"></input>
         <br />
         <button onClick={handleClick} style={(!playlist.length || playlistName==='') ? {display:"none"} : {}} className={styles.button}>Save Playlist to Spotify</button>
       </div>

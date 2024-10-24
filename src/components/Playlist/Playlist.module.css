@@ -1,14 +1,37 @@
 .button {
-  margin:1rem 0;
+  margin:1rem 0 0 0;
+  padding:5px;
   color:navy;
-  border-color:navy;
+  border: 1px solid navy;
+  max-width:90%
 }
 
 .input {
   color:navy;
+  margin:0;
+  padding:0;
   border: 1px solid navy;
+  width:80%;
 }
 
-.label {
-  color:navy;
+@media only screen and (max-width:880px) {
+  .input {
+    font-size: 1rem;
+    width:80%;
+  }
+
+  .button {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width:550px) {
+  .input {
+    font-size: .8rem;
+    max-width:90%;
+  }
+
+  .button {
+    font-size: .8rem;
+  }
 }

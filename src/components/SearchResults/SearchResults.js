@@ -1,12 +1,12 @@
 import SearchBar from '../SearchBar/SearchBar';
 import Tracklist from '../Tracklist/Tracklist'
 
-const SearchResults = ( {tracklist, onSubmitForm, onAddTrack}) => {
+const SearchResults = ( {tracklist, userData, onSubmitForm, onAddTrack}) => {
 
   return (
     <div>
       <div className="bar">
-        <SearchBar onSubmitForm={onSubmitForm} />
+        <SearchBar userData={userData} onSubmitForm={onSubmitForm} />
       </div>
       <div>
         <Tracklist

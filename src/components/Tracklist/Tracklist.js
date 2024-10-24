@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Track from '../Track/Track'
 
 const Tracklist = ( {tracklist, onSelectTrack, buttonText}) => {
@@ -7,6 +6,7 @@ const Tracklist = ( {tracklist, onSelectTrack, buttonText}) => {
     <div>
       {tracklist.map((track) => (
           <Track 
+            key={track.id}
             id={track.id}
             track={track}
             buttonText={buttonText}

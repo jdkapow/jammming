@@ -4,61 +4,217 @@
   min-height: 100vh;
 }
 
+/* HEADER */
+
 .App-header {
   background-color:rgb(211, 189, 233);
-  height: 5rem;
+  height: 3.5rem;
   color:rgb(114, 20, 202);
   text-align:left;
-  margin-bottom:0.5rem;
+  margin:0 0 0.5rem 0;
+  display:flex;
+  justify-content:space-between;
+  width:100%;
 }
 
 .App-link {
   color: #61dafb;
 }
 
+main {
+  width:100%;
+}
+
 h1 {
   font-family: 'Titan One', sans-serif;
-  font-size: 3rem;
   color:rgb(114, 20, 202);
   letter-spacing: .06rem;
   font-weight: normal;
+  display:inline;
+}
+
+.h1-big {
+  font-size: 2.5rem;
   padding: .5rem;
   margin: 0;
   text-decoration:underline;
-  display:inline;
+}
+
+.h1-small {
+  display:none;
 }
 
 h2 {
   display:inline;
-  font-size:1.5rem;
+  font-size:1.2rem;
   font-weight:bold;
+}
+
+.user-info-container {
+  height:100%;
+  margin: .5rem .5rem 0 0;
+  display:inline;
+}
+
+.user-display-name {
+  display:inline;
+  margin-right:.5rem;
+  font-weight:bold;
+}
+
+.user-button {
+  color: rgb(114, 20, 202);
+  border: 1px solid;
+  border-color: rgb(114, 20, 202);
+  margin:0;
+  font-size:1rem;
+}
+
+
+
+
+
+/* HEADER SCREENSIZE SECTIONS */
+
+@media only screen and (max-width:1150px) {
+  .App-header {
+    height: 3rem;
+  }
+
+  .h1-big {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media only screen and (max-width:1050px) {
+  .App-header {
+    height: 4rem;
+    margin-bottom:.2rem;
+  }
+
+  .h1-big {
+    font-size: 2rem;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    display:block;
+    font-size: 1rem;
+    margin-top:0;
+    margin-left:1rem;
+  }
+
+  .user-display-name {
+    display:block;
+    margin:0 0 4px 0;
+    text-align:center;
+  }
+
+}
+
+@media only screen and (max-width:550px) {
+  .App-header {
+    height: 2rem;
+  }
+  
+  .h1-big {
+    display:none;
+  }
+  
+  .h1-small {
+    display:inline;
+    font-size:1rem;
+    margin: 0 0 0 .5rem;
+  }
+
+  h2 {
+    display:none;
+  }
+
+  .user-info-container {
+    margin:2px 8px 0 0;
+  }
+
+  .user-display-name {
+    display:inline;
+    margin:0 4px 0 0;
+    text-align:left;
+    font-size:.8rem;
+  }
+
+  .user-button {
+    font-size: .8rem;
+  }
+}
+
+
+
+
+
+/* LIST SECTIONS */
+
+.section-container {
+  display:inline-block;
+  min-width:30%;
+  max-width:500px;
+  margin:.25rem;
 }
 
 .list-container {
   display:inline-block;
   padding: 1rem 0 0 0;
-  margin: 1rem 1rem;
   min-height: 10rem;
-  max-width: 40%;
   vertical-align: top;
   border-radius: 5px;
+  width:100%;
 }
 
 .tracklist-container {
   background-color: lavenderblush;
   border: 1px solid plum;
   color: purple;
+  margin-right:1rem;
 }
 
 .playlist-container {
   background-color: azure;
   border: 1px solid lightblue;
   color: navy;
+  margin-left:1rem;
+
 }
 
 h3 {
+  color: white;
+  text-align:center;
+  width:100%;
   margin:0;
-  padding:0;
+  padding:0.5rem 1rem;
+}
+
+
+
+
+
+
+/* LIST SCREENSIZE SECTIONS */
+
+@media only screen and (max-width:1150px) {
+  .section-container {
+    max-width:45%;
+  }
+
+  .tracklist-container {
+    margin-right:10px;
+  }
+
+  .playlist-container {
+    margin-left:10px;
+  }
 }
 
 p {
@@ -86,4 +242,10 @@ button {
   border-radius: 5px;
   font-size:1.2rem;
   cursor: pointer;
+}
+
+@media only screen and (max-width:860px) {
+  h3 { 
+    font-size: 1rem;
+  }
 }
