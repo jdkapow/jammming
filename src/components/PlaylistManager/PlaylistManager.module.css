@@ -1,17 +1,39 @@
+.playlist-section {
+  display:inline-block;
+}
+
+.existing-playlist-section {
+  display:inline-block;
+  border-right: 1px solid black;
+  padding:0 .5rem;
+  min-height:5rem;
+  vertical-align:top;
+}
+
+h4 {
+  margin:0 auto 0.5rem auto;
+  padding:0;
+}
+
+.edit-playlist-section {
+  display:inline-block;
+  border-left: 1px solid black;
+}
+
 .button {
-  margin:1rem 0 0 0;
-  padding:5px;
   color:navy;
   border: 1px solid navy;
-  max-width:90%
+  font-size: 1rem;
+  margin:0;
 }
 
 .input {
   color:navy;
   margin:0;
-  padding:0;
   border: 1px solid navy;
   width:80%;
+  font-size:1rem;
+  font-weight:bold;
 }
 
 @media only screen and (max-width:880px) {

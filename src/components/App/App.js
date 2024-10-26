@@ -1,23 +1,23 @@
 import { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import SearchResults from '../SearchResults/SearchResults'
-import Playlist from '../Playlist/Playlist';
+import PlaylistManager from '../PlaylistManager/PlaylistManager';
 import SpotifyManager from '../../util/SpotifyManager';
 
-const userData = await SpotifyManager.getInitialAuthorization();
-console.log(userData);
+let userData = await SpotifyManager.getInitialAuthorization();
+let existingPlaylists = await SpotifyManager.getPlaylists(userData);
+console.log(existingPlaylists);
 
 function App() {
+
+  const blankPlaylist = {
+    name: "",
+    id:"",
+    tracks: []
+  };
   
   const [tracklist, setTracklist] = useState([]);
-  const [playlist, setPlaylist] = useState([]);
-
-  /*localStorage.removeItem('access_token');
-  localStorage.removeItem('refresh_token');
-  localStorage.removeItem('refresh_in');
-  localStorage.removeItem('expires');*/
-
-  //useEffect(() => doSearch(''),[]);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(blankPlaylist);
 
   useEffect(() => {
     if(tracklist.length > 0) {
@@ -25,17 +25,16 @@ function App() {
       let newTracklist = [];
       for (let i = 0; i < tracklist.length; i++) {
         let testTrack = tracklist[i];
-        const inList = playlist.filter(track => (track.uri === testTrack.uri));
+        const inList = selectedPlaylist.filter(track => (track.uri === testTrack.uri));
         if (inList.length > 0) {
           if (testTrack.inPlaylist === "false") {changesMade = true};
           testTrack.inPlaylist = "true";
         }
         newTracklist.push(testTrack);
       };
-      console.log(changesMade);
       if (changesMade) {setTracklist(newTracklist);}
     }
-  },[tracklist, playlist])
+  },[tracklist, selectedPlaylist])
 
   //helper function to get a track from its uri
   const trackFromUri = (trackUri, searchlist) => {
@@ -46,25 +45,35 @@ function App() {
     SpotifyManager.search(term).then(setTracklist);
   },[]);
 
+  /*const getPlaylists = useCallback(() => {
+    SpotifyManager.getPlaylists();
+    alert(playlists.count)
+  },[]);*/
+
+  const onSelectPlaylistHandler = (playlistId) => {
+
+  }
+
   const onAddTrackHandler = (trackUri) => {
     const newTrack = trackFromUri(trackUri, tracklist);
-    if (trackFromUri(trackUri,playlist) === undefined) {
+    if (trackFromUri(trackUri,selectedPlaylist) === undefined) {
       newTrack.inPlaylist = "true";
-      setPlaylist(tracks => [...tracks, newTrack]);
+      setSelectedPlaylist(tracks => [...tracks, newTrack]);
     };
   };
 
   const onRemoveTrackHandler = (trackUri) => {
     const trackInTracklist = trackFromUri(trackUri, tracklist)
     if (trackInTracklist !== undefined) {trackInTracklist.inPlaylist = "false"}; //this is a mutation, so slightly less than desirable
-    setPlaylist(tracks => tracks.filter(track => !(track.uri === trackUri)));
+    setSelectedPlaylist(tracks => tracks.filter(track => !(track.uri === trackUri)));
   };
 
-  const onSavePlaylistHandler = (playlistName) => {
-    const playlistUris = playlist.map(track => track.uri);
+  async function onSavePlaylistHandler(playlistName) {
+    const playlistUris = selectedPlaylist.map(track => track.uri);
     SpotifyManager.savePlaylist(playlistName, playlistUris);
     //clear playlist--do it by removing each individual track so the tracklist resets its 'inPlaylist' value appropriately
-    playlist.forEach((track) => onRemoveTrackHandler(track.uri));
+    selectedPlaylist.forEach((track) => onRemoveTrackHandler(track.uri));
+    existingPlaylists = await SpotifyManager.getPlaylists(userData);
     return true;
   };
 
@@ -99,9 +108,10 @@ function App() {
           </div>
         </div>
         <div className="section-container">  
-          <h3>Build and Save Your Playlist</h3>   
+          <h3>Manage Your Playlists</h3>   
           <div className="list-container playlist-container">
-            <Playlist playlist={playlist} onRemoveTrack={onRemoveTrackHandler} onSavePlaylist={onSavePlaylistHandler}/>
+            <PlaylistManager existingPlaylists={existingPlaylists} selectedPlaylist={selectedPlaylist} 
+                              onSelectPlaylist={onSelectPlaylistHandler} onRemoveTrack={onRemoveTrackHandler} onSavePlaylist={onSavePlaylistHandler}/>
           </div>
         </div>
       </main>

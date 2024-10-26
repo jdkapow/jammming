@@ -159,9 +159,8 @@ h2 {
 
 .section-container {
   display:inline-block;
-  min-width:30%;
-  max-width:500px;
-  margin:.25rem;
+  max-width:45%;
+  margin:.25rem .5rem;
 }
 
 .list-container {
@@ -177,15 +176,12 @@ h2 {
   background-color: lavenderblush;
   border: 1px solid plum;
   color: purple;
-  margin-right:1rem;
 }
 
 .playlist-container {
   background-color: azure;
   border: 1px solid lightblue;
   color: navy;
-  margin-left:1rem;
-
 }
 
 h3 {
@@ -193,7 +189,7 @@ h3 {
   text-align:center;
   width:100%;
   margin:0;
-  padding:0.5rem 1rem;
+  padding:0;
 }
 
 

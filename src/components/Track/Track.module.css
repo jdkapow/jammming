@@ -2,11 +2,12 @@
 .track-container {
   border: 1px solid black;
   border-radius: 10px;
-  margin: .8rem;
+  margin: .4rem;
   padding: .2rem 0;
   text-align: left;
   vertical-align:middle;
   display:flex;
+  max-width:400px;
 }
 
 .track-container-add {
@@ -26,7 +27,7 @@
 
 .info {
   text-align:left;
-  margin: 0 0 0 2rem;
+  margin: 0 0 0 .4rem;
   width: 80%;
   overflow:hidden;
   white-space:nowrap;
@@ -39,13 +40,17 @@
 .button {
   text-align:left;
   margin:0;
-  padding:5px 10px;
+  padding:0 .5rem;
 }
 
 .h4 {
-  font-size:1.5rem;
+  font-size:1rem;
   margin:0;
   padding:0;
+}
+
+.p {
+  font-size:.8rem;
 }
 
 @media only screen and (max-width:1150px) {

@@ -1,13 +1,16 @@
 .input {
   color:purple;
   border: 1px solid purple;
-  min-width:60%;
+  min-width:30%;
   max-width:80%;
+  font-size:1rem;
+  font-weight:bold;
 }
 
 .button-large {
   color: purple;
   border: 1px solid purple;
+  font-size:1rem;
 }
 
 .button-small {

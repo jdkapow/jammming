@@ -4,10 +4,6 @@ import styles from './SearchBar.module.css';
 const SearchBar = ( {userData, onSubmitForm} ) => {
   const [text, setText] = useState('');
 
-  const loggedOutStyle = {
-    backgroundColor:"pink"
-  }
-
   const handleChange = (e) => {
     setText(e.target.value);
   };

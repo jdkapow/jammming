@@ -8,16 +8,23 @@
  */
 
 const clientId = '5c2b34cf2dd7416795d0c1851fd57ac6'; // your clientId
-const redirectUrl = 'https://jdkapow.github.io/jammming'; //'http://localhost:3000/'
+const redirectUrl = 'http://localhost:3000/'; //'https://jdkapow.github.io/jammming'
+
+//generic endpoints
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
+const searchEndpoint = "https://api.spotify.com/v1/search";
+const playlistEndpoint = 'https://api.spotify.com/v1/me/playlists';
+
+let playlistPage;
+
+
 const scope = 'playlist-modify-public';
 
 // Data structure that manages the current active token, caching it in localStorage
 const currentToken = {
   get access_token() { return localStorage.getItem('access_token') || null; },
   get refresh_token() { return localStorage.getItem('refresh_token') || null; },
-  get expires_in() { return localStorage.getItem('refresh_in') || null },
   get expires() { return localStorage.getItem('expires') || null },
 
   save: function (response) {
@@ -35,11 +42,18 @@ const currentToken = {
 const SpotifyManager = {
   // fetch auth code from current browser search URL
   async getInitialAuthorization() {
+
+    /*localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('refresh_in');
+    localStorage.removeItem('expires');*/
+
     const args = new URLSearchParams(window.location.search);
     const code = args.get('code');
 
     // If we find a code, we're in a callback, do a token exchange
     if (code) {
+      console.log('got inside the code if statement, maybe the problem?')
       const token = await this.getToken(code);
       currentToken.save(token);
 
@@ -51,15 +65,21 @@ const SpotifyManager = {
       window.history.replaceState({}, document.title, updatedUrl);
     }
 
-    // If we have a token, we're logged in, so fetch user data and render logged in template
+    // If we have a token, we're logged in
     if (currentToken.access_token) {
-      const userData = await this.getUserData();
-      return userData;
-      //renderTemplate("main", "logged-in-template", userData);
-      //renderTemplate("oauth", "oauth-template", currentToken);
-    } else { // Otherwise we're not logged in, so render the login template
+      
+      //check if our token has timed out
+        const now = new Date();
+        const currentTime = new Date(now.getTime());
+        const expireTime = new Date(currentToken.expires);
+        if (currentTime > expireTime) {
+          const refreshedToken = await this.refreshToken();
+          currentToken.save(refreshedToken);
+        };
+
+      return await this.getUserData().catch(this.logout);
+    } else { // Otherwise we're not logged in, so return null
       return null;
-      //renderTemplate("main", "login");
     }
   },
 
@@ -142,14 +162,78 @@ const SpotifyManager = {
   async logout() {
     localStorage.clear();
     window.location.href = redirectUrl;
+    return null;
+  },
+
+  getPlaylists(userData, newPage) {
+    if (userData === null) {
+      return null;
+    }
+    const accessToken = currentToken.access_token;
+    playlistPage = (newPage || playlistPage || 1);
+    const playlistDisplayLimit = 3; //change the display limit here
+    const queryText = '?limit=' + playlistDisplayLimit + '&offset=' + (playlistPage - 1) * playlistDisplayLimit;
+    return fetch(playlistEndpoint + queryText, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }).then(response => {
+      return response.json();
+    }).then(jsonResponse => {
+      if (!jsonResponse) {
+        return [];
+      };
+      if (jsonResponse.total === 0) {
+        return [];
+      }
+      const playlistCount = jsonResponse.total;
+      const items = jsonResponse.items.map(list => ({
+        name:list.name,
+        id:list.id,
+        trackCount:list.tracks.total,
+        trackList:[]
+      }));
+      return {
+        playlistPage: playlistPage,
+        playlistCount: playlistCount,
+        items: items
+      };
+    });
+  },
+
+  getPlaylist(playlistId) {
+    const playlistEndpoint = 'https://api.spotify.com/v1/playlists/' + playlistId;
+    const accessToken = currentToken.access_token;
+    return fetch(playlistEndpoint, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }).then(response => {
+      return response.json();
+    }).then(jsonResponse => {
+      if (!jsonResponse) {
+        return [];
+      };
+      const tracks = jsonResponse.tracks.items.map(track => ({
+        title: track.name,
+        artist: track.artists[0].name,
+        album: track.album.name,
+        id: track.id,
+        uri: track.uri,
+        inPlaylist: "true"
+      }));
+      return {
+        name: jsonResponse.name,
+        id: jsonResponse.id,
+        tracks: tracks
+      };
+    });
   },
 
   search(searchTerm, playlist) {
-    console.log('got to the first point');
     const searchAccessToken = currentToken.access_token;
-    const endPoint = "https://api.spotify.com/v1/search";
     var queryText = "?q=" + searchTerm + "&type=track&limit=50"; //change the number of results here
-    return fetch(endPoint + queryText, {
+    return fetch(searchEndpoint + queryText, {
       headers: {
         Authorization: `Bearer ${searchAccessToken}`
       }
@@ -174,14 +258,12 @@ const SpotifyManager = {
     if (!playlistName || !playlistUris.length) {
       return;
     }
-
+    const userIdEndpoint = 'https://api.spotify.com/v1/me'
     const saveAccessToken = currentToken.access_token;
-    console.log(`saveAccessToken = ${saveAccessToken}`);
-    const userIdEndPoint = "https://api.spotify.com/v1/me";
     const headers = { Authorization: `Bearer ${saveAccessToken}` };
     let userId;
     
-    return fetch(userIdEndPoint, {
+    return fetch(userIdEndpoint, {
         headers: {
           Authorization: `Bearer ${saveAccessToken}`
         }
@@ -189,8 +271,6 @@ const SpotifyManager = {
         return response.json();
       }).then(jsonResponse => {
         userId = jsonResponse.id;
-        console.log(jsonResponse);
-        console.log(`userId = ${userId}`);
         const createPlaylistEndPoint = `https://api.spotify.com/v1/users/${userId}/playlists`;
         return fetch(createPlaylistEndPoint, {
           headers: headers,
@@ -211,55 +291,4 @@ const SpotifyManager = {
   }
 }
 
-
 export default SpotifyManager;
-
-/*
-// Click handlers
-async function loginWithSpotifyClick() {
-  await redirectToSpotifyAuthorize();
-}
-
-async function logoutClick() {
-  localStorage.clear();
-  window.location.href = redirectUrl;
-}
-
-async function refreshTokenClick() {
-  const token = await refreshToken();
-  currentToken.save(token);
-  renderTemplate("oauth", "oauth-template", currentToken);
-}
-
-// HTML Template Rendering with basic data binding - demoware only.
-function renderTemplate(targetId, templateId, data = null) {
-  const template = document.getElementById(templateId);
-  const clone = template.content.cloneNode(true);
-
-  const elements = clone.querySelectorAll("*");
-  elements.forEach(ele => {
-    const bindingAttrs = [...ele.attributes].filter(a => a.name.startsWith("data-bind"));
-
-    bindingAttrs.forEach(attr => {
-      const target = attr.name.replace(/data-bind-/, "").replace(/data-bind/, "");
-      const targetType = target.startsWith("onclick") ? "HANDLER" : "PROPERTY";
-      const targetProp = target === "" ? "innerHTML" : target;
-
-      const prefix = targetType === "PROPERTY" ? "data." : "";
-      const expression = prefix + attr.value.replace(/;\n\r\n/g, "");
-
-      // Maybe use a framework with more validation here ;)
-      try {
-        ele[targetProp] = targetType === "PROPERTY" ? eval(expression) : () => { eval(expression) };
-        ele.removeAttribute(attr.name);
-      } catch (ex) {
-        console.error(`Error binding ${expression} to ${targetProp}`, ex);
-      }
-    });
-  });
-
-  const target = document.getElementById(targetId);
-  target.innerHTML = "";
-  target.appendChild(clone);
-}
-*/
