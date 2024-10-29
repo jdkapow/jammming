@@ -226,7 +226,8 @@ function App() {
                             onAddTrack={onAddTrackHandler}/>
           </div>
         </div>
-        <div className={styles["section-container"]}>  
+        <div className={styles["section-container"]}
+              style={userData===null ? {display:"none"} : {}}>  
           <h3 className={styles.h3}>Manage Your Playlists</h3>   
           <div className={styles["playlist-container"]}>
             <PlaylistManager existingPlaylistItems={existingPlaylistItems} 
