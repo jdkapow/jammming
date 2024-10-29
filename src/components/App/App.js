@@ -6,7 +6,9 @@ import SpotifyManager from '../../util/SpotifyManager';
 
 
 let userData = await SpotifyManager.getInitialAuthorization();
+console.log(userData);
 let initialPlaylists = await SpotifyManager.getPlaylists(userData,1);
+console.log(initialPlaylists);
 
 function App() {
   const [searchTracklist, setSearchTracklist] = useState([]);
