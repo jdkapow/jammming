@@ -2,12 +2,12 @@
 .track-container {
   border: 1px solid black;
   border-radius: 10px;
-  margin: .4rem;
+  margin: .4rem 0;
   padding: .2rem 0;
   text-align: left;
   vertical-align:middle;
   display:flex;
-  max-width:400px;
+  width:325px;
 }
 
 .track-container-add {
@@ -15,20 +15,25 @@
   color: lavender;
 }
 
-.track-container-remove {
-  background-color:navy;
-  color:azure;
-}
-
 .track-container-selected {
   background-color:rgba(128, 0, 128, 0.6);
   color:lightgray;
 }
 
+.track-container-original {
+  background-color:navy;
+  color:azure;
+}
+
+.track-container-new {
+  background-color:rgba(0, 0, 128, 0.6);
+  color: azure;
+}
+
 .info {
   text-align:left;
   margin: 0 0 0 .4rem;
-  width: 80%;
+  width: 85%;
   overflow:hidden;
   white-space:nowrap;
 }
@@ -44,46 +49,23 @@
 }
 
 .h4 {
-  font-size:1rem;
+  font-size:1em;
   margin:0;
   padding:0;
 }
 
 .p {
-  font-size:.8rem;
+  font-size:.8em;
 }
 
-@media only screen and (max-width:1150px) {
-  .button {
-    font-size:1rem;
-    padding:4px 8px;
-  }
-
-  .h4 {
-    font-size:1.2rem;
-  }
-
-  .p {
-    font-size:0.8rem;
-  }
-
-  .info {
-    margin-left: 1.5rem;
-  }
-
-}
-
-@media only screen and (max-width:880px) {
+@media only screen and (max-width:950px) {
   .track-container {
-    margin:0.5rem;
+    max-width: 300px;
   }
 
   .button {
-    padding:3px 6px;
-  }
-
-  .info {
-    margin-left: .5rem;
+    font-size: 1em;
+    padding:0 .4em;
   }
 
 }
@@ -99,5 +81,6 @@
 
   .button {
     padding:0px 4px;
+    padding:0;
   }
 }

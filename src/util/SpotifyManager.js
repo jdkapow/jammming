@@ -10,6 +10,13 @@
 const clientId = '5c2b34cf2dd7416795d0c1851fd57ac6'; // your clientId
 const redirectUrl = 'http://localhost:3000/'; //'https://jdkapow.github.io/jammming'
 
+
+const blankPlaylistsObject = {
+  page:1,
+  count:0,
+  items:[]
+}
+
 //generic endpoints
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
@@ -17,7 +24,6 @@ const searchEndpoint = "https://api.spotify.com/v1/search";
 const playlistEndpoint = 'https://api.spotify.com/v1/me/playlists';
 
 let playlistPage;
-
 
 const scope = 'playlist-modify-public';
 
@@ -53,7 +59,6 @@ const SpotifyManager = {
 
     // If we find a code, we're in a callback, do a token exchange
     if (code) {
-      console.log('got inside the code if statement, maybe the problem?')
       const token = await this.getToken(code);
       currentToken.save(token);
 
@@ -167,11 +172,11 @@ const SpotifyManager = {
 
   getPlaylists(userData, newPage) {
     if (userData === null) {
-      return null;
+      return blankPlaylistsObject;
     }
     const accessToken = currentToken.access_token;
     playlistPage = (newPage || playlistPage || 1);
-    const playlistDisplayLimit = 3; //change the display limit here
+    const playlistDisplayLimit = 10; //change the display limit here
     const queryText = '?limit=' + playlistDisplayLimit + '&offset=' + (playlistPage - 1) * playlistDisplayLimit;
     return fetch(playlistEndpoint + queryText, {
       headers: {
@@ -181,10 +186,10 @@ const SpotifyManager = {
       return response.json();
     }).then(jsonResponse => {
       if (!jsonResponse) {
-        return [];
+        return blankPlaylistsObject;
       };
       if (jsonResponse.total === 0) {
-        return [];
+        return blankPlaylistsObject;
       }
       const playlistCount = jsonResponse.total;
       const items = jsonResponse.items.map(list => ({
@@ -194,8 +199,8 @@ const SpotifyManager = {
         trackList:[]
       }));
       return {
-        playlistPage: playlistPage,
-        playlistCount: playlistCount,
+        page: playlistPage,
+        count: playlistCount,
         items: items
       };
     });
@@ -214,17 +219,18 @@ const SpotifyManager = {
       if (!jsonResponse) {
         return [];
       };
-      const tracks = jsonResponse.tracks.items.map(track => ({
-        title: track.name,
-        artist: track.artists[0].name,
-        album: track.album.name,
-        id: track.id,
-        uri: track.uri,
+      const tracks = jsonResponse.tracks.items.map(item => ({
+        title: item.track.name,
+        artist: item.track.artists[0].name,
+        album: item.track.album.name,
+        id: item.track.id,
+        uri: item.track.uri,
         inPlaylist: "true"
       }));
       return {
         name: jsonResponse.name,
         id: jsonResponse.id,
+        snapshotId: jsonResponse.snapshot_id,
         tracks: tracks
       };
     });
@@ -264,9 +270,7 @@ const SpotifyManager = {
     let userId;
     
     return fetch(userIdEndpoint, {
-        headers: {
-          Authorization: `Bearer ${saveAccessToken}`
-        }
+        headers: headers
       }).then((response) => {
         return response.json();
       }).then(jsonResponse => {
@@ -280,14 +284,68 @@ const SpotifyManager = {
       }).then(response => {
         return response.json();
       }).then(jsonResponse => {
-        const playListId = jsonResponse.id;
-        const addToPlaylistEndPoint = `https://api.spotify.com/v1/playlists/${playListId}/tracks`;
+        const playlistId = jsonResponse.id;
+        const addToPlaylistEndPoint = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
         return fetch(addToPlaylistEndPoint, {
           headers: headers,
           method: 'POST',
           body: JSON.stringify(playlistUris)
-        });
+        }).then(() => {return playlistId});
       });
+  },
+
+  renamePlaylist(playlistId, newPlaylistName) {
+    const accessToken = currentToken.access_token;
+    const headers = { Authorization: `Bearer ${accessToken}` };
+    const changeNameEndpoint = `https://api.spotify.com/v1/playlists/${playlistId}`
+    return fetch(changeNameEndpoint, {
+      headers: headers,
+      method: 'PUT',
+      body: JSON.stringify({name:newPlaylistName})
+    });
+  },
+
+  replacePlaylistTracks(playlistId, newPlaylistUris) {
+    const accessToken = currentToken.access_token;
+    const headers = { Authorization: `Bearer ${accessToken}` };
+    const replaceTracksEndpoint = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+    return fetch(replaceTracksEndpoint, {
+      headers: headers,
+      method: 'POST',
+      body: JSON.stringify(newPlaylistUris)
+    });
+  },
+
+  removePlaylistTracks(playlistId, snapshotId, removeTrackUris) {
+    const accessToken = currentToken.access_token;
+    const headers = { Authorization: `Bearer ${accessToken}` };
+    const removeTracksEndpoint = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+    const uriObjects = removeTrackUris.map((removeUri) => ({uri:removeUri}));
+    const body = {
+      tracks: uriObjects,
+      snapshot_id:snapshotId
+    };
+    console.log(body);
+    return fetch(removeTracksEndpoint, {
+      headers:headers,
+      method: 'DELETE',
+      body: JSON.stringify(body)
+    });
+  },
+
+  addPlaylistTracks(playlistId, addTrackUris) {
+    const accessToken = currentToken.access_token;
+    const headers = { Authorization: `Bearer ${accessToken}` };
+    const addTracksEndpoint = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+    const body = {
+      uris:addTrackUris,
+      position:0
+    };
+    return fetch(addTracksEndpoint, {
+      headers: headers,
+      method: 'POST',
+      body: JSON.stringify(body)
+    })
   }
 }
 

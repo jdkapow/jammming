@@ -1,0 +1,48 @@
+
+.h4 {
+  margin:0 auto 0.5rem auto;
+  padding:0;
+}
+
+.button {
+  color:navy;
+  border: 1px solid navy;
+  font-size: 1em;
+  margin:1rem auto 0 auto;
+}
+
+.input {
+  color:navy;
+  margin:.5rem auto 0 auto;
+  border: 1px solid navy;
+  width:80%;
+  font-size:1em;
+  font-weight:bold;
+}
+
+.p {
+  font-size:1rem;
+  margin-top:1rem;
+}
+
+.h5 {
+  color:red;
+  font-size:.6rem;
+  font-weight:normal;
+  font-style:italic;
+  margin:0 auto 1rem auto;
+}
+
+.track-listing {
+  margin-top:1rem;
+}
+
+@media only screen and (max-width:950px) {
+  .h4 {
+    max-width:300px;
+  }
+
+  .input {
+    max-width:300px;
+  }
+}

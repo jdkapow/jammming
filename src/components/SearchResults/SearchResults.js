@@ -10,6 +10,7 @@ const SearchResults = ( {tracklist, userData, onSubmitForm, onAddTrack}) => {
       </div>
       <div>
         <Tracklist
+          originalTracklist={[]}
           tracklist={tracklist}
           buttonText='+'
           onSelectTrack={onAddTrack}

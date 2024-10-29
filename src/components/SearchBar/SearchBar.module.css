@@ -1,16 +1,19 @@
 .input {
   color:purple;
   border: 1px solid purple;
-  min-width:30%;
-  max-width:80%;
+  width:210px;
   font-size:1rem;
   font-weight:bold;
+  margin-left:0;
+  padding:0 0 0 5px;
 }
 
 .button-large {
   color: purple;
   border: 1px solid purple;
   font-size:1rem;
+  width:90px;
+  margin-right:0;
 }
 
 .button-small {
@@ -20,7 +23,7 @@
 }
 
 
-@media only screen and (max-width:880px) {
+@media only screen and (max-width:950px) {
   .button-large {
     display:none;
   }
@@ -36,9 +39,8 @@
   }
 
   .input {
-    margin-right:5px;
-    padding:0;
     font-size: 1rem;
+    max-width:300px;
   }
 }
 

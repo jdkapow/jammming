@@ -1,4 +1,4 @@
-.App {
+.app {
   text-align: center;
   background-color:darkslategray;
   min-height: 100vh;
@@ -6,26 +6,28 @@
 
 /* HEADER */
 
-.App-header {
+.header-extended {
+  position:fixed;
+  height:4.2rem;
+  width:100%;
+  z-index:10;
+  background-color:darkslategray;
+}
+
+.header-main {
   background-color:rgb(211, 189, 233);
-  height: 3.5rem;
+  height: 3.7rem;
   color:rgb(114, 20, 202);
   text-align:left;
-  margin:0 0 0.5rem 0;
+  margin:0 0 .5rem 0;
   display:flex;
   justify-content:space-between;
   width:100%;
+  z-index:10;
+  border-bottom:1px solid black;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-main {
-  width:100%;
-}
-
-h1 {
+.h1 {
   font-family: 'Titan One', sans-serif;
   color:rgb(114, 20, 202);
   letter-spacing: .06rem;
@@ -44,7 +46,7 @@ h1 {
   display:none;
 }
 
-h2 {
+.h2 {
   display:inline;
   font-size:1.2rem;
   font-weight:bold;
@@ -85,7 +87,7 @@ h2 {
     font-size: 2rem;
   }
 
-  h2 {
+  .h2 {
     font-size: 1.2rem;
   }
 }
@@ -101,7 +103,7 @@ h2 {
     margin-bottom: 0;
   }
 
-  h2 {
+  .h2 {
     display:block;
     font-size: 1rem;
     margin-top:0;
@@ -117,7 +119,11 @@ h2 {
 }
 
 @media only screen and (max-width:550px) {
-  .App-header {
+  .header-extended {
+    height:2.3rem;
+  }
+  
+  .header-main {
     height: 2rem;
   }
   
@@ -131,7 +137,7 @@ h2 {
     margin: 0 0 0 .5rem;
   }
 
-  h2 {
+  .h2 {
     display:none;
   }
 
@@ -155,41 +161,47 @@ h2 {
 
 
 
-/* LIST SECTIONS */
+/* MAIN SECTION */
+
+.main {
+  width:100%;
+  position:relative;
+  top:4.3rem;
+  z-index:5;
+}
 
 .section-container {
   display:inline-block;
-  max-width:45%;
-  margin:.25rem .5rem;
-}
-
-.list-container {
-  display:inline-block;
-  padding: 1rem 0 0 0;
-  min-height: 10rem;
+  margin: 0 .5rem 0 .5rem;
+  padding: 0;
   vertical-align: top;
   border-radius: 5px;
-  width:100%;
 }
 
 .tracklist-container {
+  padding:1rem .5rem;
   background-color: lavenderblush;
   border: 1px solid plum;
   color: purple;
+  max-width:360px;
+  min-height: 20rem;
 }
 
 .playlist-container {
+  padding:1rem .5rem;
   background-color: azure;
   border: 1px solid lightblue;
   color: navy;
+  max-width:500px;
+  min-height:20rem;
 }
 
-h3 {
+.h3 {
   color: white;
   text-align:center;
   width:100%;
   margin:0;
-  padding:0;
+  padding-bottom:5px;
 }
 
 
@@ -200,17 +212,7 @@ h3 {
 /* LIST SCREENSIZE SECTIONS */
 
 @media only screen and (max-width:1150px) {
-  .section-container {
-    max-width:45%;
-  }
-
-  .tracklist-container {
-    margin-right:10px;
-  }
-
-  .playlist-container {
-    margin-left:10px;
-  }
+  
 }
 
 p {

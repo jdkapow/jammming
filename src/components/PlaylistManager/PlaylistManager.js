@@ -1,30 +1,33 @@
-import { useState } from 'react';
 import styles from './PlaylistManager.module.css';
-import Tracklist from '../Tracklist/Tracklist';
 import ExistingPlaylists from '../ExistingPlaylists/ExistingPlaylists';
 import PlaylistEditor from '../PlaylistEditor/PlaylistEditor';
 
-const PlaylistManager = ( {existingPlaylists, onRemoveTrack, onSavePlaylist} ) => {
-  const [selectedPlaylist, setSelectedPlaylist] = useState({});
-
-  const onSelectPlaylistHandler= (playlist) => {
-
-  };
-
-  const onSavePlaylistHandler = (selectedPlaylist) => {
-    if (!(selectedPlaylist.name === '')) {
-      const success = onSavePlaylist(selectedPlaylist);
-      if (success) {setSelectedPlaylist({})};
-    };
-  };
+const PlaylistManager = (props) => {
+  const {existingPlaylistPage, existingPlaylistCount, existingPlaylistItems, onChangePlaylistPage} = props;
+  const {selectedPlaylistId, selectedPlaylistName, newPlaylistName} = props;
+  const {selectedPlaylistOriginalTracks, selectedPlaylistTracks} = props;
+  const {onBeginNewPlaylist, onSelectPlaylist, onChangePlaylistName, onRemoveTrack, onSavePlaylist} = props;
 
   return (
     <div className={styles["playlist-section"]}>
       <div className={styles["existing-playlist-section"]}>
-        <ExistingPlaylists playlists={existingPlaylists} onSelectPlaylist={onSelectPlaylistHandler}/>
+        <ExistingPlaylists existingPlaylistPage={existingPlaylistPage} 
+                            existingPlaylistCount={existingPlaylistCount}
+                            existingPlaylistItems={existingPlaylistItems}
+                            selectedPlaylistId={selectedPlaylistId} 
+                            onChangePlaylistPage={onChangePlaylistPage}
+                            onBeginNewPlaylist={onBeginNewPlaylist}
+                            onSelectPlaylist={onSelectPlaylist}/>
       </div>
       <div className={styles["edit-playlist-section"]}>
-        <PlaylistEditor selectedPlaylist={selectedPlaylist} onRemoveTrack={onRemoveTrack} onSavePlaylist={onSavePlaylistHandler}/>
+        <PlaylistEditor id={selectedPlaylistId} 
+                        oldName={selectedPlaylistName}
+                        name={newPlaylistName}
+                        originalTracks={selectedPlaylistOriginalTracks}
+                        tracks={selectedPlaylistTracks}
+                        onChangePlaylistName={onChangePlaylistName}
+                        onRemoveTrack={onRemoveTrack} 
+                        onSavePlaylist={onSavePlaylist}/>
       </div>
     </div>
   )

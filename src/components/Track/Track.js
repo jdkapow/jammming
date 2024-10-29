@@ -1,6 +1,6 @@
 import styles from './Track.module.css';
 
-const Track = ({track, buttonText, onSelectTrack}) => {
+const Track = ({track, isNewTrack, buttonText, onSelectTrack}) => {
 
   const {uri, title, artist, album, inPlaylist} = track;
 
@@ -11,7 +11,7 @@ const Track = ({track, buttonText, onSelectTrack}) => {
   const containerClassName1 = styles["track-container"];
   const containerClassName2 = (buttonText === "+" 
                       ? (inPlaylist === "true" ? styles["track-container-selected"] : styles["track-container-add"]) 
-                      : styles["track-container-remove"]);
+                      : (isNewTrack === "true" ? styles["track-container-new"] : styles["track-container-original"]));
   const containerClassNameFull = [containerClassName1, containerClassName2].join(" ");
 
   return (

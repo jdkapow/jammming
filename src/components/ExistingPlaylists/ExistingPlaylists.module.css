@@ -1,8 +1,51 @@
 
 
+.page-list {
+  display:inline;
+  float:left;
+  margin:0;
+  padding:0;
+  font-size: .8em;
+  color: maroon;
+  margin-top:5px;
+}
+
+.page-current {
+  display:inline;
+  color:gray;
+  font-weight:normal;
+  padding:0 2px;
+}
+
+.page-other {
+  display:inline;
+  cursor:pointer;
+  padding:0 2px;
+}
+
+.existing-playlist-list {
+  list-style-type:none;
+  text-align:left;
+  margin:.5rem 0 0 0;
+  padding:0;
+  font-size:1em;
+}
+
+.existing-playlist-header {
+  margin-bottom:.8rem;
+  text-align:left;
+}
+
+.h4 {
+  display:inline;
+  text-align:left;
+  margin:0 10px 0 0;
+}
+
 .button {
   color:navy;
   border: 1px solid navy;
-  font-size: 1rem;
+  font-size: 1em;
+  padding:0 5px;
   margin:0;
 }
