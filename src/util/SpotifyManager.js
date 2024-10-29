@@ -72,7 +72,7 @@ const SpotifyManager = {
 
     // If we have a token, we're logged in
     if (currentToken.access_token) {
-      
+      console.log(currentToken.access_token);
       //check if our token has timed out
         const now = new Date();
         const currentTime = new Date(now.getTime());
@@ -81,8 +81,11 @@ const SpotifyManager = {
           const refreshedToken = await this.refreshToken();
           currentToken.save(refreshedToken);
         };
-
-      return await this.getUserData().catch(this.logout);
+      console.log('got here!');
+      return await this.getUserData().catch(error => {
+        this.logout;
+        return null;
+      });
     } else { // Otherwise we're not logged in, so return null
       return null;
     }
