@@ -81,11 +81,8 @@ const SpotifyManager = {
           const refreshedToken = await this.refreshToken();
           currentToken.save(refreshedToken);
         };
-      console.log('got here!');
-      return await this.getUserData().catch(error => {
-        this.logout;
-        return null;
-      });
+      console.log('got here! token = ' + currentToken.access_token);
+      return this.getUserData().catch(this.logout);
     } else { // Otherwise we're not logged in, so return null
       return null;
     }
