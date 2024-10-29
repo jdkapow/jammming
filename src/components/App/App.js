@@ -4,10 +4,11 @@ import SearchResults from '../SearchResults/SearchResults'
 import PlaylistManager from '../PlaylistManager/PlaylistManager';
 import SpotifyManager from '../../util/SpotifyManager';
 
+let userData;
 try {
-  let userData = await SpotifyManager.getInitialAuthorization();
+  userData = await SpotifyManager.getInitialAuthorization();
 } catch (error) {
-  let userData = null;
+  userData = null;
 }
 console.log(userData);
 let initialPlaylists = await SpotifyManager.getPlaylists(userData,1);
