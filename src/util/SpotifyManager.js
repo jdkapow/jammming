@@ -8,7 +8,7 @@
  */
 
 const clientId = '5c2b34cf2dd7416795d0c1851fd57ac6'; // your clientId
-const redirectUrl = 'http://localhost:3000/'; //'https://jdkapow.github.io/jammming' //
+const redirectUrl = 'https://jdkapow.github.io/jammming' //'http://localhost:3000/'; //
 
 
 const blankPlaylistsObject = {
