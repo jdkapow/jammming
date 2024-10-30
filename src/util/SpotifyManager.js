@@ -8,7 +8,7 @@
  */
 
 const clientId = '5c2b34cf2dd7416795d0c1851fd57ac6'; // your clientId
-const redirectUrl = 'https://jdkapow.github.io/jammming' //'http://localhost:3000/'; //
+const redirectUrl = 'http://localhost:3000/'; //'https://jdkapow.github.io/jammming' //
 
 
 const blankPlaylistsObject = {
@@ -71,8 +71,7 @@ const SpotifyManager = {
     }
 
     // If we have a token, we're logged in
-    if (currentToken.access_token) {
-      console.log(currentToken.access_token);
+    if (currentToken.access_token && currentToken.access_token !== "undefined") {
       //check if our token has timed out
         const now = new Date();
         const currentTime = new Date(now.getTime());
@@ -81,7 +80,6 @@ const SpotifyManager = {
           const refreshedToken = await this.refreshToken();
           currentToken.save(refreshedToken);
         };
-      console.log('got here! token = ' + currentToken.access_token);
       return this.getUserData().catch(this.logout);
     } else { // Otherwise we're not logged in, so return null
       return null;

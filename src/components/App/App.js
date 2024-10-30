@@ -4,15 +4,8 @@ import SearchResults from '../SearchResults/SearchResults'
 import PlaylistManager from '../PlaylistManager/PlaylistManager';
 import SpotifyManager from '../../util/SpotifyManager';
 
-let userData;
-try {
-  userData = await SpotifyManager.getInitialAuthorization();
-} catch (error) {
-  userData = null;
-}
-console.log(userData);
+let userData = await SpotifyManager.getInitialAuthorization();
 let initialPlaylists = await SpotifyManager.getPlaylists(userData,1);
-console.log(initialPlaylists);
 
 function App() {
   const [searchTracklist, setSearchTracklist] = useState([]);
