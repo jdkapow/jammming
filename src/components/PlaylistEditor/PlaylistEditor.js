@@ -11,17 +11,26 @@ const PlaylistEditor = (props) => {
   }
 
   const selectedPlaylistChanged = () => {
-    if (name !== oldName) {
-      return true;
-    }
-    if (tracks === undefined && originalTracks === undefined) {
+    if (tracks === undefined) {
       return false;
     };
-    if (tracks === undefined || originalTracks === undefined) {
+    if (tracks.length===0) {
+      return false;
+    };
+    if (tracks.length===0) {
+      return false;
+    }
+    if (name==='') {
+      return false;
+    };
+    if (originalTracks === undefined) {
       return true;
     };
-    if (tracks.length !== originalTracks.length) {
+    if (originalTracks.length === 0) {
       return true;
+    };
+    if (tracks.length === originalTracks.length && name === oldName) {
+      return false;
     };
     for (let i = 0; i < tracks.length; i++) {
       if (tracks[i].uri !== originalTracks[i].uri) {

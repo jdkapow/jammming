@@ -10,7 +10,8 @@ const PlaylistManager = (props) => {
 
   return (
     <div className={styles["playlist-section"]}>
-      <div className={styles["existing-playlist-section"]}>
+      <div className={styles["existing-playlist-section"]}
+            style={selectedPlaylistId==='' ? {borderRight:"none"} : {}}>
         <ExistingPlaylists existingPlaylistPage={existingPlaylistPage} 
                             existingPlaylistCount={existingPlaylistCount}
                             existingPlaylistItems={existingPlaylistItems}
@@ -19,7 +20,8 @@ const PlaylistManager = (props) => {
                             onBeginNewPlaylist={onBeginNewPlaylist}
                             onSelectPlaylist={onSelectPlaylist}/>
       </div>
-      <div className={styles["edit-playlist-section"]}>
+      <div className={styles["edit-playlist-section"]}
+            style={selectedPlaylistId==='' ? {display:"none"} : {}}>
         <PlaylistEditor id={selectedPlaylistId} 
                         oldName={selectedPlaylistName}
                         name={newPlaylistName}
